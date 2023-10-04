@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:homework/createuser.dart';
@@ -18,16 +17,16 @@ class TraWellApp extends StatefulWidget {
   State<TraWellApp> createState() => _MyAppState();
 
   // This widget is the root of your application.
+  // Ez a build nem kell ide
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'TraWell - Flutter version',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
-        useMaterial3: true,
-      ),
-      home: NavigatorHolder()
-    );
+        title: 'TraWell - Flutter version',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
+          useMaterial3: true,
+        ),
+        home: NavigatorHolder());
   }
 }
 
@@ -52,23 +51,37 @@ class _MyAppState extends State<TraWellApp> {
           title: const Text('Maps Sample App'),
           elevation: 2,
         ),
-        body: GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: _center,
-            zoom: 11.0,
-          ),
+        // Egymásra helyezed ezzel a widgeteket CSS-ben ez a z-index
+        body: Stack(
+          children: [
+            GoogleMap(
+              onMapCreated: _onMapCreated,
+              initialCameraPosition: CameraPosition(
+                target: _center,
+                zoom: 11.0,
+              ),
+            ),
+            // Positioned úgy működik mint a position: absolute CSS-ben.
+            Positioned(
+              bottom: 10,
+              left: 10,
+              child: ElevatedButton(
+                onPressed: () {
+                  print('Pressed');
+                },
+                child: const Icon(Icons.access_alarm),
+              ),
+            )
+          ],
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            globalNavigatorHolderKey.currentState!
-                .addNewPage(const CreateUser());
+            globalNavigatorHolderKey.currentState!.addNewPage(const CreateUser());
           },
           tooltip: 'Increment',
           child: const Icon(Icons.add),
         ),
       ),
-
     );
   }
 }
@@ -101,26 +114,22 @@ class _NavigatorHolderState extends State<NavigatorHolder> {
           case "/loginpage":
             return MaterialPageRoute(
               settings: const RouteSettings(name: "/loginpage"),
-              builder: (context) => LoginPage(
-              ),
+              builder: (context) => const LoginPage(),
             );
         }
         if (route.name?.contains("/loginpage/") ?? false) {
           final routeName = route.name!;
-          final arg = routeName.substring(
-              routeName.lastIndexOf("/") + 1, routeName.length);
+          final arg = routeName.substring(routeName.lastIndexOf("/") + 1, routeName.length);
           return MaterialPageRoute(
             settings: RouteSettings(name: "/loginpage/$arg"),
-            builder: (context) => LoginPage(
-            ),
+            builder: (context) => const LoginPage(),
           );
         }
         return null;
       },
       onUnknownRoute: (route) {
         return MaterialPageRoute(
-          builder: (_) => LoginPage(
-          ),
+          builder: (_) => const LoginPage(),
         );
       },
     );
@@ -141,9 +150,7 @@ class _NavigatorHolderState extends State<NavigatorHolder> {
 }
 
 class MainPage extends StatelessWidget {
-  const MainPage({
-    Key? key
-  }) : super(key: key);
+  const MainPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -179,15 +186,13 @@ class MainPage extends StatelessWidget {
               ElevatedButton(
                 child: const Text("Go to first page"),
                 onPressed: () {
-                  globalNavigatorHolderKey.currentState!
-                      .addNewPage(const LoginPage());
+                  globalNavigatorHolderKey.currentState!.addNewPage(const LoginPage());
                 },
               ),
               ElevatedButton(
                 child: const Text("Go to second page"),
                 onPressed: () {
-                  globalNavigatorHolderKey.currentState!
-                      .addNewPage(const CreateUser());
+                  globalNavigatorHolderKey.currentState!.addNewPage(const CreateUser());
                 },
               ),
               ElevatedButton(
@@ -205,5 +210,4 @@ class MainPage extends StatelessWidget {
       ),
     );
   }
-
 }
