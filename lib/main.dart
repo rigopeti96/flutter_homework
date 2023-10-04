@@ -49,7 +49,7 @@ class _MyAppState extends State<TraWellApp> {
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Maps Sample App'),
+          title: const Text('TraWell'),
           elevation: 2,
         ),
         body: GoogleMap(
@@ -67,6 +67,7 @@ class _MyAppState extends State<TraWellApp> {
           tooltip: 'Increment',
           child: const Icon(Icons.add),
         ),
+
       ),
 
     );
