@@ -9,25 +9,33 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Login")),
-      body: Center(
+      appBar: AppBar(title: const Text("TraWell - Login")),
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/splash.jpg"),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(
-                Icons.android,
-                color: Colors.greenAccent,
-                size: 120,
+              const TextField(
+                decoration: InputDecoration(
+                  hintText: 'Username',
+                  filled: true,
+                  fillColor: Colors.white,
+                ),
               ),
-              const SizedBox(height: 16),
-              const Text("This is the first page"),
-              ElevatedButton(
-                child: const Text("Navigate to the second page"),
-                onPressed: () {
-                  //globalNavigatorHolderKey.currentState!.addNewPage(CreateUser(key: UniqueKey(),));
-                },
+              const TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  hintText: 'Password',
+                  filled: true,
+                  fillColor: Colors.white
+                ),
               ),
               ElevatedButton(
                 child: const Text("Back"),

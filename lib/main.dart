@@ -53,7 +53,7 @@ class _MainPageState extends State<MainPage> {
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Maps Sample App'),
+          title: const Text('TraWell - Map'),
           elevation: 2,
         ),
         // Egymásra helyezed ezzel a widgeteket CSS-ben ez a z-index
