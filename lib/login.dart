@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:homework/createuser.dart';
 
@@ -27,7 +26,7 @@ class LoginPage extends StatelessWidget {
               ElevatedButton(
                 child: const Text("Navigate to the second page"),
                 onPressed: () {
-                  globalNavigatorHolderKey.currentState!.addNewPage(CreateUser(key: UniqueKey(),));
+                  //globalNavigatorHolderKey.currentState!.addNewPage(CreateUser(key: UniqueKey(),));
                 },
               ),
               ElevatedButton(
