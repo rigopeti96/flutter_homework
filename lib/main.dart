@@ -29,8 +29,6 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   late GoogleMapController mapController;
-//  LocationService locationService = LocationService();
-//  late LatLng actualLocation;
 
   List<Page> pages = [
     const MaterialPage(child: TraWellApp()),
@@ -84,8 +82,21 @@ class _MainPageState extends State<MainPage> {
       return LatLng(value.latitude, value.longitude);
     });
 
-    return LatLng(0, 0);
+    return const LatLng(47.4983, 19.0408);
   }
+
+  void locationSettingsFunction(){
+    const LocationSettings locationSettings = LocationSettings(
+      accuracy: LocationAccuracy.high,
+      distanceFilter: 100,
+    );
+    StreamSubscription<Position> positionStream = Geolocator.getPositionStream(locationSettings: locationSettings).listen(
+            (Position? position) {
+          print(position == null ? 'Unknown' : '${position.latitude.toString()}, ${position.longitude.toString()}');
+          //GoogleMap
+        });
+  }
+
 
 
   /*LatLng getActPosition(){
@@ -120,14 +131,29 @@ class _MainPageState extends State<MainPage> {
         // Egymásra helyezed ezzel a widgeteket CSS-ben ez a z-index
         body: Stack(
           children: [
-            GoogleMap(
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: CameraPosition(
-                target: getActPosition(),
-                zoom: 11.0,
-              ),
+            StreamBuilder<Position>(
+              stream: Geolocator.getPositionStream(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  final position = snapshot.data;
+                  return GoogleMap(
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(position!.latitude, position.longitude),
+                      zoom: 15.0,
+                    ),
+                    markers: <Marker>{
+                      Marker(
+                        markerId: const MarkerId('user_location'),
+                        position: LatLng(position.latitude, position.longitude),
+                        icon: BitmapDescriptor.defaultMarker,
+
+                      ),
+                    },
+                  );
+                }
+                return const CircularProgressIndicator();
+              },
             ),
-            // Positioned úgy működik mint a position: absolute CSS-ben.
             Positioned(
               bottom: 10,
               left: 10,
@@ -144,4 +170,5 @@ class _MainPageState extends State<MainPage> {
     );
   }
 }
+
 
