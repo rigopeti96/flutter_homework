@@ -116,6 +116,14 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
+  void _navigateToCreateUserScreen() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const CreateUser(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -155,13 +163,33 @@ class _MainPageState extends State<MainPage> {
               },
             ),
             Positioned(
-              bottom: 10,
-              left: 10,
+              top: 10,
+              right: 10,
               child: ElevatedButton(
                 onPressed: () {
                   _navigateToNextScreen();
                 },
-                child: const Icon(Icons.access_alarm),
+                child: const Icon(Icons.login),
+              ),
+            ),
+            Positioned(
+              top: 60,
+              right: 10,
+              child: ElevatedButton(
+                onPressed: () {
+                  _navigateToCreateUserScreen();
+                },
+                child: const Icon(Icons.add_reaction_outlined),
+              ),
+            ),
+            Positioned(
+              top: 110,
+              right: 10,
+              child: ElevatedButton(
+                onPressed: () {
+                  _navigateToCreateUserScreen();
+                },
+                child: const Icon(Icons.railway_alert),
               ),
             )
           ],
