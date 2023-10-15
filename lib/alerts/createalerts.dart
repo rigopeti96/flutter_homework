@@ -28,9 +28,9 @@ class CreateAlertPage extends StatelessWidget {
             DropdownButton<String>(
               hint: new Text("Select a user"),
               value: selectedString,
-              onChanged: (String newValue) {
+              onChanged: (String? newValue) {
                 setState(() {
-                  selectedString = newValue;
+                  selectedString = newValue!;
                 });
               },
               items: list.map((String value) {
