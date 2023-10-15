@@ -6,6 +6,8 @@ import 'package:homework/createuser.dart';
 import 'package:homework/login.dart';
 import 'package:geolocator/geolocator.dart';
 
+final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+
 void main() {
   runApp(const TraWellApp());
 }
@@ -127,6 +129,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scaffoldMessengerKey: scaffoldMessengerKey,
       theme: ThemeData(
         useMaterial3: true,
         colorSchemeSeed: Colors.green[700],
