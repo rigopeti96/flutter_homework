@@ -1,15 +1,25 @@
 import 'package:json_annotation/json_annotation.dart';
 
-
+part 'trawell_json_models.g.dart';
 
 @JsonSerializable()
-class OWCitiesFindResponse{
-  final String message;
-  final String cod;
-  final num count;
+class LoginResponse{
+  final String accessToken;
+  final String id;
+  final String employeename;
+  final String email;
+  final bool enabled;
+  final List<String> roles;
 
-  OWCitiesFindResponse(this.message, this.cod, this.count);
+  LoginResponse(
+    this.accessToken,
+    this.id,
+    this.employeename,
+    this.email,
+    this.enabled,
+    this.roles,
+  );
 
-  factory OWCitiesFindResponse.fromJson(Map<String, dynamic> json) => _$OWCitiesFindResponseFromJson(json);
-  Map<String, dynamic> toJson() => _$OWCitiesFindResponseToJson(this);
+  factory LoginResponse.fromJson(Map<String, dynamic> json) => _$LoginResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$OWLoginResponseToJson(this);
 }
