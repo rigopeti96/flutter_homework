@@ -1,0 +1,43 @@
+{
+  "@@locale": "en",
+  "homeTitle": "TraWell - Map",
+  "@homeTitle": {
+    "description": "Main page (map) title.",
+    "context": "MainPage"
+  },
+  "loginTitle": "TraWell - Login",
+  "@loginTitle": {
+    "description": "Login page title.",
+    "context": "LoginPage"
+  },
+  "signup": "TraWell - Create user",
+  "@signupTitle": {
+    "description": "Create user page title.",
+    "context": "CreateUserPage"
+  },
+  "fullNameTag": "Full name",
+  "@fullNameTag": {
+    "description": "Create user page full name edit text hint.",
+    "context": "CreateUserPage"
+  },
+  "userNameTag": "User name",
+  "@userNameTag": {
+    "description": "Create user page user name edit text hint.",
+    "context": "CreateUserPage"
+  },
+  "passwordTag": "Password",
+  "@passwordTag": {
+    "description": "Create user page password edit text hint.",
+    "context": "CreateUserPage"
+  },
+  "createUser": "Create User",
+  "@createUser": {
+    "description": "Create user page button text.",
+    "context": "CreateUserPage"
+  },
+  "createUserBack": "Back",
+  "@createUserBack": {
+    "description": "Create user page back button text.",
+    "context": "CreateUserPage"
+  }
+}
