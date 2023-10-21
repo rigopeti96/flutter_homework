@@ -7,12 +7,20 @@ import '../main.dart';
 
 
 
-class CreateAlertPage extends StatelessWidget {
+class CreateAlertPage extends StatefulWidget {
   final LatLng position;
-  String selectedString  = "";
-  List<String> list = <String>['One', 'Two', 'Three', 'Four'];
-  CreateAlertPage({super.key, required this.position});
 
+  const CreateAlertPage({super.key, required this.position});
+
+  @override
+  _CreateAlertPage createState() => _CreateAlertPage(position: position);
+}
+
+class _CreateAlertPage extends State<CreateAlertPage> {
+  final LatLng position;
+  String selectedString = "One";
+  List<String> list = <String>['One', 'Two', 'Three', 'Four'];
+  _CreateAlertPage({required this.position});
 
   @override
   Widget build(BuildContext context) {
@@ -41,15 +49,15 @@ class CreateAlertPage extends StatelessWidget {
                     style: new TextStyle(color: Colors.black),
                   ),
                 );
-            }).toList(),
-          ),
-          ElevatedButton(
-            child: const Text("Send report"),
-            onPressed: (){
-              Navigator.of(context).pop();
-            },
-          ),
-          ElevatedButton(
+              }).toList(),
+            ),
+            ElevatedButton(
+              child: const Text("Send report"),
+              onPressed: (){
+                Navigator.of(context).pop();
+              },
+            ),
+            ElevatedButton(
               child: const Text("Back"),
               onPressed: (){
                 Navigator.of(context).pop();
@@ -58,33 +66,6 @@ class CreateAlertPage extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class DropdownMenuExample extends StatefulWidget {
-  const DropdownMenuExample({super.key});
-
-  @override
-  State<DropdownMenuExample> createState() => _DropdownMenuExampleState();
-}
-
-class _DropdownMenuExampleState extends State<DropdownMenuExample> {
-  String dropdownValue = list.first;
-
-  @override
-  Widget build(BuildContext context) {
-    return DropdownMenu<String>(
-      initialSelection: list.first,
-      onSelected: (String? value) {
-        // This is called when the user selects an item.
-        setState(() {
-          dropdownValue = value!;
-        });
-      },
-      dropdownMenuEntries: list.map<DropdownMenuEntry<String>>((String value) {
-        return DropdownMenuEntry<String>(value: value, label: value);
-      }).toList(),
     );
   }
 }
