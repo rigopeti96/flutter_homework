@@ -1,0 +1,98 @@
+{
+  "@@locale": "en",
+  "homeTitle": "TraWell - Map",
+  "@homeTitle": {
+    "description": "Main page (map) title.",
+    "context": "MainPage"
+  },
+  "loginTitle": "TraWell - Login",
+  "@loginTitle": {
+    "description": "Login page title.",
+    "context": "LoginPage"
+  },
+  "signup": "TraWell - Create user",
+  "@signupTitle": {
+    "description": "Create user page title.",
+    "context": "CreateUserPage"
+  },
+  "createAlert": "TraWell - Create alert",
+  "@signupTitle": {
+    "description": "Create alert page title.",
+    "context": "CreateAlertPage"
+  },
+  "fullNameTag": "Full name",
+  "@fullNameTag": {
+    "description": "Create user page full name edit text hint.",
+    "context": "CreateUserPage"
+  },
+  "userNameTag": "User name",
+  "@userNameTag": {
+    "description": "Create user page user name edit text hint.",
+    "context": "CreateUserPage"
+  },
+  "passwordTag": "Password",
+  "@passwordTag": {
+    "description": "Create user page password edit text hint.",
+    "context": "CreateUserPage"
+  },
+  "createUser": "Create User",
+  "@createUser": {
+    "description": "Create user page button text.",
+    "context": "CreateUserPage"
+  },
+  "createUserBack": "Back",
+  "@createUserBack": {
+    "description": "Dropdown list value",
+    "context": "CreateAlertPage"
+  },
+  "blackout": "Blackout",
+  "@blackout": {
+    "description": "Dropdown list value",
+    "context": "CreateAlertPage"
+  },
+  "accidentCar": "Accident (car)",
+  "@accidentCar": {
+    "description": "Dropdown list value",
+    "context": "CreateAlertPage"
+  },
+  "accidentPT": "Accident (public transport)",
+  "@accidentPT": {
+    "description": "Dropdown list value",
+    "context": "CreateAlertPage"
+  },
+  "inspector": "Inspector",
+  "@inspector": {
+    "description": "Dropdown list value",
+    "context": "CreateAlertPage"
+  },
+  "trafficJam": "Traffic Jam",
+  "@trafficJam": {
+    "description": "Dropdown list value",
+    "context": "CreateAlertPage"
+  },
+  "weather": "Interruption due to weather",
+  "@weather": {
+    "description": "Dropdown list value",
+    "context": "CreateAlertPage"
+  },
+  "unknown": "Unknown",
+  "@unknown": {
+    "description": "Dropdown list value",
+    "context": "CreateAlertPage"
+  },
+  "delay": "Delay",
+  "@delay": {
+    "description": "Dropdown list value",
+    "context": "CreateAlertPage"
+  },
+  "assemblyErr": "Assembly error",
+  "@assemblyErr": {
+    "description": "Dropdown list value",
+    "context": "CreateAlertPage"
+  },
+  "passengerSick": "Passenger sickness",
+  "@passengerSick": {
+    "description": "Dropdown list value",
+    "context": "CreateAlertPage"
+  }
+}

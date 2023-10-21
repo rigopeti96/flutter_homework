@@ -18,25 +18,28 @@ class CreateAlertPage extends StatefulWidget {
 
 class _CreateAlertPage extends State<CreateAlertPage> {
   final LatLng position;
-  String reportType = "Áramkimaradás";
 
-  List<String> list = <String>['Áramkimaradás',
-    'Baleset (autó)',
-    'Baleset (tömegközlekedési eszköz)',
-    'Ellenőr',
-    'Forgalmi torlódás',
-    'Időjárás miatti fennakadás',
-    'Ismeretlen',
-    'Késés',
-    'Szerelvényhiba',
-    'Utas rosszullét'
-  ];
   _CreateAlertPage({required this.position});
 
   @override
   Widget build(BuildContext context) {
+    final L10n l10n = L10n.of(context)!;
+    String reportType = l10n.blackout;
+
+    List<String> list = <String>[l10n.blackout,
+      l10n.accidentCar,
+      l10n.accidentPT,
+      l10n.inspector,
+      l10n.trafficJam,
+      l10n.weather,
+      l10n.unknown,
+      l10n.delay,
+      l10n.assemblyErr,
+      l10n.passengerSick
+    ];
+
     return Scaffold(
-      appBar: AppBar(title: const Text("TraWell - Create alert")),
+      appBar: AppBar(title: Text(l10n.createAlert)),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -57,7 +60,7 @@ class _CreateAlertPage extends State<CreateAlertPage> {
                   value: value,
                   child: Text(
                     value,
-                    style: new TextStyle(color: Colors.black),
+                    style: const TextStyle(color: Colors.black),
                   ),
                 );
               }).toList(),
@@ -69,7 +72,7 @@ class _CreateAlertPage extends State<CreateAlertPage> {
               },
             ),
             ElevatedButton(
-              child: const Text("Back"),
+              child: Text(l10n.createUserBack),
               onPressed: (){
                 Navigator.of(context).pop();
               },

@@ -6,10 +6,12 @@ import '../main.dart';
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
 
+
   @override
   Widget build(BuildContext context) {
+    final L10n? l10n = L10n.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text("TraWell - Login")),
+      appBar: AppBar(title: Text(l10n!.loginTitle)),
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -22,23 +24,23 @@ class LoginPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const TextField(
+              TextField(
                 decoration: InputDecoration(
-                  hintText: 'Username',
+                  hintText: l10n.userNameTag,
                   filled: true,
                   fillColor: Colors.white,
                 ),
               ),
-              const TextField(
+              TextField(
                 obscureText: true,
                 decoration: InputDecoration(
-                  hintText: 'Password',
+                  hintText: l10n.passwordTag,
                   filled: true,
                   fillColor: Colors.white
                 ),
               ),
               ElevatedButton(
-                child: const Text("Back"),
+                child: Text(l10n.createUserBack),
                 onPressed: (){
                   Navigator.of(context).pop();
                 },

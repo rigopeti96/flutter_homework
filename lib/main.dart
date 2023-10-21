@@ -1,11 +1,15 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:homework/createuser.dart';
 import 'package:homework/login.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:homework/alerts/createalerts.dart';
+import 'package:homework/main.dart';
+import 'package:flutter_gen/gen_l10n/l10n.dart';
+export 'package:flutter_gen/gen_l10n/l10n.dart';
 
 void main() {
   runApp(const TraWellApp());
@@ -17,6 +21,9 @@ class TraWellApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      localizationsDelegates: L10n.localizationsDelegates,
+      supportedLocales: L10n.supportedLocales,
       home: MainPage(),
     );
   }
@@ -124,6 +131,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    final L10n l10n = L10n.of(context)!;
     return MaterialApp(
       theme: ThemeData(
         useMaterial3: true,
@@ -131,7 +139,7 @@ class _MainPageState extends State<MainPage> {
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('TraWell - Map'),
+          title: Text(l10n.homeTitle),
           elevation: 2,
         ),
         // Egymásra helyezed ezzel a widgeteket CSS-ben ez a z-index
