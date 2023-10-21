@@ -22,35 +22,36 @@ class MyCustomFormState extends State<CreateUser> {
 
   @override
   Widget build(BuildContext context) {
+    final L10n l10n = L10n.of(context)!;
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          const TextField(
+          TextField(
             decoration: InputDecoration(
-              hintText: 'Full name',
+              hintText: l10n.fullNameTag,
             ),
           ),
-          const TextField(
+          TextField(
             decoration: InputDecoration(
-              hintText: 'User name',
+              hintText: l10n.userNameTag,
             ),
           ),
-          const TextField(
+          TextField(
             obscureText: true,
             decoration: InputDecoration(
-              hintText: 'Password',
+              hintText: l10n.passwordTag,
             ),
           ),
           ElevatedButton(
-            child: const Text("Create user"),
+            child: Text(l10n.createUser),
             onPressed: (){
               //TODO: implement http call
               Navigator.of(context).pop();
             },
           ),
           ElevatedButton(
-            child: const Text("Back"),
+            child: Text(l10n.createUserBack),
             onPressed: (){
               Navigator.of(context).pop();
             },

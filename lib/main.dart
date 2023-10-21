@@ -139,7 +139,7 @@ class _MainPageState extends State<MainPage> {
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text(l10n!.homeTitle),
+          title: Text(l10n.homeTitle),
           elevation: 2,
         ),
         // Egymásra helyezed ezzel a widgeteket CSS-ben ez a z-index
