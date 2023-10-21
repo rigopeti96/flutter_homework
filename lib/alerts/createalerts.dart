@@ -18,8 +18,19 @@ class CreateAlertPage extends StatefulWidget {
 
 class _CreateAlertPage extends State<CreateAlertPage> {
   final LatLng position;
-  String selectedString = "One";
-  List<String> list = <String>['One', 'Two', 'Three', 'Four'];
+  String reportType = "Áramkimaradás";
+
+  List<String> list = <String>['Áramkimaradás',
+    'Baleset (autó)',
+    'Baleset (tömegközlekedési eszköz)',
+    'Ellenőr',
+    'Forgalmi torlódás',
+    'Időjárás miatti fennakadás',
+    'Ismeretlen',
+    'Késés',
+    'Szerelvényhiba',
+    'Utas rosszullét'
+  ];
   _CreateAlertPage({required this.position});
 
   @override
@@ -35,10 +46,10 @@ class _CreateAlertPage extends State<CreateAlertPage> {
             Text("Longitude: ${position.longitude.toString()}"),
             DropdownButton<String>(
               hint: new Text("Select a user"),
-              value: selectedString,
+              value: reportType,
               onChanged: (String? newValue) {
                 setState(() {
-                  selectedString = newValue!;
+                  reportType = newValue!;
                 });
               },
               items: list.map((String value) {
