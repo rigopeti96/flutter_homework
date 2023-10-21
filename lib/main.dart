@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:homework/createuser.dart';
 import 'package:homework/login.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:homework/alerts/createalerts.dart';
 
 void main() {
   runApp(const TraWellApp());
@@ -97,21 +98,10 @@ class _MainPageState extends State<MainPage> {
         });
   }
 
-
-
-  /*LatLng getActPosition(){
-    Future<LatLng> actPositionFuture = locationService.getCurrentLocation();
-    actPositionFuture.then((value) {
-      actualLocation = value;
-    });
-
-    return actualLocation;
-  }*/
-
-  void _navigateToNextScreen() {
+  void _navigateToLoginScreen() {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => LoginPage(),
+        builder: (context) => const LoginPage(),
       ),
     );
   }
@@ -120,6 +110,14 @@ class _MainPageState extends State<MainPage> {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => const CreateUser(),
+      ),
+    );
+  }
+
+  void _navigateToCreateAlertScreen() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => CreateAlertPage(position: getActPosition()),
       ),
     );
   }
@@ -167,7 +165,7 @@ class _MainPageState extends State<MainPage> {
               right: 10,
               child: ElevatedButton(
                 onPressed: () {
-                  _navigateToNextScreen();
+                  _navigateToLoginScreen();
                 },
                 child: const Icon(Icons.login),
               ),
@@ -187,7 +185,7 @@ class _MainPageState extends State<MainPage> {
               right: 10,
               child: ElevatedButton(
                 onPressed: () {
-                  _navigateToCreateUserScreen();
+                  _navigateToCreateAlertScreen();
                 },
                 child: const Icon(Icons.railway_alert),
               ),
