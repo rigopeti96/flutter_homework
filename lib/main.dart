@@ -9,6 +9,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:homework/alerts/createalerts.dart';
 import 'package:homework/main.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
+import 'package:homework/reportlist/reportlist.dart';
 export 'package:flutter_gen/gen_l10n/l10n.dart';
 
 void main() {
@@ -129,6 +130,14 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
+  void _navigateToReportsScreen() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const ReportListPage(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final L10n l10n = L10n.of(context)!;
@@ -194,6 +203,16 @@ class _MainPageState extends State<MainPage> {
               child: ElevatedButton(
                 onPressed: () {
                   _navigateToCreateAlertScreen();
+                },
+                child: const Icon(Icons.railway_alert),
+              ),
+            ),
+            Positioned(
+              top: 160,
+              right: 10,
+              child: ElevatedButton(
+                onPressed: () {
+                  _navigateToReportsScreen();
                 },
                 child: const Icon(Icons.railway_alert),
               ),

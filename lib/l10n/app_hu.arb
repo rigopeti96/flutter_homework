@@ -3,11 +3,14 @@
   "homeTitle": "TraWell - Térkép",
   "loginTitle": "TraWell - Bejelentkezés",
   "signup": "TraWell - Regisztráció",
-  "createAlert": "TraWell - Bejelentés",
+  "createAlertTitle": "TraWell - Bejelentés",
   "fullNameTag": "Teljes név",
   "userNameTag": "Felhasználónév",
   "passwordTag": "Jelszó",
   "createUser": "Felhasználó létrehozása",
+  "stationsNear": "Közeli megállók",
+  "selectError": "Hibajelenség",
+  "createAlert":"Hiba beküldése",
   "createUserBack": "Vissza",
   "blackout": "Áramkimaradás",
   "accidentCar": "Baleset (autó)",
@@ -18,5 +21,6 @@
   "unknown": "Ismeretlen",
   "delay": "Késés",
   "assemblyErr": "Szerelvényhiba",
+  "yourPosition": "Aktuális pozíció",
   "passengerSick": "Utas rosszullét"
 }

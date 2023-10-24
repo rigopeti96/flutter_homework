@@ -15,8 +15,8 @@
     "description": "Create user page title.",
     "context": "CreateUserPage"
   },
-  "createAlert": "TraWell - Create alert",
-  "@signupTitle": {
+  "createAlertTitle": "TraWell - Create alert",
+  "@createAlertTitle": {
     "description": "Create alert page title.",
     "context": "CreateAlertPage"
   },
@@ -35,6 +35,21 @@
     "description": "Create user page password edit text hint.",
     "context": "CreateUserPage"
   },
+  "yourPosition": "Your position",
+  "@yourPosition": {
+    "description": "Label of position",
+    "context": "CreateAlertPage"
+  },
+  "selectError": "Error Type",
+  "@selectError": {
+    "description": "Label of dropdown list",
+    "context": "CreateAlertPage"
+  },
+  "stationsNear": "Stations near you...",
+  "@stationsNear": {
+    "description": "Label of station dropdown list",
+    "context": "CreateAlertPage"
+  },
   "createUser": "Create User",
   "@createUser": {
     "description": "Create user page button text.",
@@ -43,6 +58,11 @@
   "createUserBack": "Back",
   "@createUserBack": {
     "description": "Dropdown list value",
+    "context": "CreateAlertPage"
+  },
+  "createAlert": "Create alert",
+  "@createAlert": {
+    "description": "Button text value",
     "context": "CreateAlertPage"
   },
   "blackout": "Blackout",

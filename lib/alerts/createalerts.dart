@@ -25,8 +25,12 @@ class _CreateAlertPage extends State<CreateAlertPage> {
   Widget build(BuildContext context) {
     final L10n l10n = L10n.of(context)!;
     String reportType = l10n.blackout;
+    String stationName = "";
+    DateTime now = DateTime.now();
+    DateTime date = DateTime(now.year, now.month, now.day, now.hour, now.minute, now.second);
+    String dateFormatted = date.toString().substring(0, date.toString().indexOf('.'));
 
-    List<String> list = <String>[l10n.blackout,
+    List<String> errorList = <String>[l10n.blackout,
       l10n.accidentCar,
       l10n.accidentPT,
       l10n.inspector,
@@ -38,24 +42,40 @@ class _CreateAlertPage extends State<CreateAlertPage> {
       l10n.passengerSick
     ];
 
+    List<String> stationsNearList = <String>[];
+
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.createAlert)),
+      appBar: AppBar(title: Text(l10n.createAlertTitle)),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text("Your position"),
-            Text("Latitude: ${position.latitude.toString()}"),
-            Text("Longitude: ${position.longitude.toString()}"),
+            Padding(
+              padding: const EdgeInsets.all(5), //apply padding to all four sides
+              child: Text(l10n.yourPosition),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(5), //apply padding to all four sides
+              child: Text("Latitude: ${position.latitude.toString()}"),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(5), //apply padding to all four sides
+              child: Text("Longitude: ${position.longitude.toString()}"),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(5), //apply padding to all four sides
+              child: Text("Actual date: $dateFormatted"),
+            ),
+            //TODO Nem változik az érték, megkérdezni!
             DropdownButton<String>(
-              hint: new Text("Select a user"),
+              //hint: Text(l10n.selectError),
               value: reportType,
               onChanged: (String? newValue) {
                 setState(() {
                   reportType = newValue!;
                 });
               },
-              items: list.map((String value) {
+              items: errorList.map((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(
@@ -65,18 +85,39 @@ class _CreateAlertPage extends State<CreateAlertPage> {
                 );
               }).toList(),
             ),
-            ElevatedButton(
-              child: const Text("Send report"),
-              onPressed: (){
-                Navigator.of(context).pop();
+            DropdownButton<String>(
+              hint: Text(l10n.selectError),
+              onChanged: (String? newValue) {
+                stationName = newValue!;
+                setState(() {
+                  newValue;
+                });
               },
+              value: stationName,
+              items: stationsNearList.map((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(
+                    value,
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                );
+              }).toList(),
             ),
-            ElevatedButton(
-              child: Text(l10n.createUserBack),
-              onPressed: (){
-                Navigator.of(context).pop();
-              },
-            ),
+            Expanded(
+                child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(40),
+                      ),
+                      child: Text(l10n.createAlert),
+                      onPressed: (){
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                )
+            )
           ],
         ),
       ),
