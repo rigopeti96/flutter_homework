@@ -4,6 +4,7 @@
   "loginTitle": "TraWell - Bejelentkezés",
   "signup": "TraWell - Regisztráció",
   "createAlertTitle": "TraWell - Bejelentés",
+  "loginButton": "Bejelentkezés",
   "fullNameTag": "Teljes név",
   "userNameTag": "Felhasználónév",
   "passwordTag": "Jelszó",

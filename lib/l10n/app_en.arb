@@ -10,6 +10,11 @@
     "description": "Login page title.",
     "context": "LoginPage"
   },
+  "loginButton": "Login",
+  "@loginButton": {
+    "description": "Login page button title.",
+    "context": "LoginPage"
+  },
   "signup": "TraWell - Create user",
   "@signupTitle": {
     "description": "Create user page title.",
