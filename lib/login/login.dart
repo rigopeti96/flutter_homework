@@ -23,8 +23,6 @@ class LoginPage extends StatelessWidget {
       }),
     );
 
-    showRequestDialog();
-
     if (response.statusCode == 201) {
       // If the server did return a 201 CREATED response,
       // then parse the JSON.
@@ -34,14 +32,6 @@ class LoginPage extends StatelessWidget {
       // then throw an exception.
       throw Exception('Failed to create album.');
     }
-  }
-
-  AlertDialog showRequestDialog(){
-    return AlertDialog(
-        // Retrieve the text the that user has entered by using the
-        // TextEditingController.
-        content: Text(passwordController.text),
-    );
   }
 
   @override

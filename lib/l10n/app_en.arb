@@ -20,6 +20,11 @@
     "description": "Create user page title.",
     "context": "CreateUserPage"
   },
+  "reportListTitle": "TraWell - Reports",
+  "@reportListTitle": {
+    "description": "Create user page title.",
+    "context": "CreateUserPage"
+  },
   "createAlertTitle": "TraWell - Create alert",
   "@createAlertTitle": {
     "description": "Create alert page title.",
