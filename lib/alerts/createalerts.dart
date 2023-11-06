@@ -18,13 +18,12 @@ class CreateAlertPage extends StatefulWidget {
 
 class _CreateAlertPage extends State<CreateAlertPage> {
   final LatLng position;
-
   _CreateAlertPage({required this.position});
+  String reportType = "";
 
   @override
   Widget build(BuildContext context) {
     final L10n l10n = L10n.of(context)!;
-    String reportType = l10n.blackout;
     String stationName = "";
     DateTime now = DateTime.now();
     DateTime date = DateTime(now.year, now.month, now.day, now.hour, now.minute, now.second);
