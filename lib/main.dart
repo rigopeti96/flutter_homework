@@ -165,6 +165,7 @@ class _MainPageState extends State<MainPage> {
                       zoom: 15.0,
                     ),
                     markers: <Marker>{
+
                       Marker(
                         markerId: const MarkerId('user_location'),
                         position: LatLng(position.latitude, position.longitude),
