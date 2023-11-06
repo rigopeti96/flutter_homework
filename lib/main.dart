@@ -164,6 +164,7 @@ class _MainPageState extends State<MainPage> {
                       target: LatLng(position!.latitude, position.longitude),
                       zoom: 15.0,
                     ),
+                    onMapCreated: _onMapCreated,
                     markers: <Marker>{
 
                       Marker(
