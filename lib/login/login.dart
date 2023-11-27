@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:homework/createuser.dart';
+import 'package:homework/createuser/createuser.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -13,7 +13,7 @@ class LoginPage extends StatelessWidget {
 
   Future<LoginDataResponse> login() async{
     final response = await http.post(
-      Uri.parse('http://192.168.0.171:8080/api/auth/signin'),
+      Uri.parse('http://192.168.0.129:8080/api/auth/signin'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

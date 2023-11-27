@@ -24,5 +24,6 @@
   "delay": "Késés",
   "assemblyErr": "Szerelvényhiba",
   "yourPosition": "Aktuális pozíció",
-  "passengerSick": "Utas rosszullét"
+  "passengerSick": "Utas rosszullét",
+  "emptyValue": "Üres"
 }

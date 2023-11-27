@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:homework/alerts/errortypevalues.dart';
 
 import '../main.dart';
 
@@ -20,7 +21,7 @@ class _CreateAlertPage extends State<CreateAlertPage> {
   final LatLng position;
   _CreateAlertPage({required this.position});
 
-  ClassType classType = ClassType.A;
+  ErrorType testType = ErrorType.blackout;
 
   @override
   Widget build(BuildContext context) {
@@ -31,17 +32,18 @@ class _CreateAlertPage extends State<CreateAlertPage> {
     DateTime date = DateTime(now.year, now.month, now.day, now.hour, now.minute, now.second);
     String dateFormatted = date.toString().substring(0, date.toString().indexOf('.'));
 
-    List<String> errorList = <String>[l10n.blackout,
-      l10n.accidentCar,
-      l10n.accidentPT,
-      l10n.inspector,
-      l10n.trafficJam,
-      l10n.weather,
-      l10n.unknown,
-      l10n.delay,
-      l10n.assemblyErr,
-      l10n.passengerSick
-    ];
+    Map<ErrorType, String> errorList = <ErrorType, String>{
+      ErrorType.blackout: l10n.blackout,
+      ErrorType.accidentCar: l10n.accidentCar,
+      ErrorType.accidentPT: l10n.accidentPT,
+      ErrorType.inspector: l10n.inspector,
+      ErrorType.trafficJam: l10n.trafficJam,
+      ErrorType.weather: l10n.weather,
+      ErrorType.unknown: l10n.unknown,
+      ErrorType.delay: l10n.delay,
+      ErrorType.assemblyErr: l10n.assemblyErr,
+      ErrorType.passengerSick: l10n.passengerSick
+    };
 
     List<String> stationsNearList = <String>[];
 
@@ -105,6 +107,25 @@ class _CreateAlertPage extends State<CreateAlertPage> {
                 );
               }).toList(),
             ),
+            DropdownButton<ErrorType>(
+              hint: Text(l10n.selectError),
+              onChanged: (Map<ErrorType, String>? newValue) {
+                testType = newValue!.;
+                setState(() {
+                  newValue;
+                });
+              },
+              value: testType,
+              items: ErrorType.values.map((ErrorType classType) {
+                return DropdownMenuItem<ErrorType>(
+                  value: classType,
+                  child: Text(
+                    classType.toString(),
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                );
+              }).toList(),
+            ),
             Expanded(
                 child: Align(
                     alignment: Alignment.bottomCenter,
@@ -125,5 +146,3 @@ class _CreateAlertPage extends State<CreateAlertPage> {
     );
   }
 }
-
-enum ClassType {A, B, C, D}

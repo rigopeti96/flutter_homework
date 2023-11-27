@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-import '../main.dart';
+import '../../main.dart';
+import 'createuserresponse.dart';
 
 class CreateUser extends StatefulWidget {
   const CreateUser({Key? key}) : super(key: key);
@@ -19,6 +22,29 @@ class MyCustomFormState extends State<CreateUser> {
   // Note: This is a `GlobalKey<FormState>`,
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
+
+  Future<CrateUserResponse> login() async{
+    final response = await http.post(
+      Uri.parse('http://192.168.0.129:8080/api/auth/signin'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'username': usernameController.text,
+        'password': passwordController.text,
+      }),
+    );
+
+    if (response.statusCode == 201) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      return LoginDataResponse.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to create user.');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

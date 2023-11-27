@@ -124,5 +124,10 @@
   "@passengerSick": {
     "description": "Dropdown list value",
     "context": "CreateAlertPage"
+  },
+  "emptyValue": "Empty",
+  "@emptyValue": {
+    "description": "Dropdown list value",
+    "context": "CreateAlertPage"
   }
 }
