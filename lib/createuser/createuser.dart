@@ -16,11 +16,6 @@ class CreateUser extends StatefulWidget {
 }
 
 class MyCustomFormState extends State<CreateUser> {
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
-  //
-  // Note: This is a `GlobalKey<FormState>`,
-  // not a GlobalKey<MyCustomFormState>.
   Set<String> roles = {'USER'};
 
   final _formKey = GlobalKey<FormState>();
@@ -50,7 +45,7 @@ class MyCustomFormState extends State<CreateUser> {
         // then parse the JSON.
         return CreateUserResponse.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
       } else {
-        // If the server did not return a 201 CREATED response,
+        // If the server did not return a 200 OK response,
         // then throw an exception.
         throw Exception('Failed to create user!');
       }
