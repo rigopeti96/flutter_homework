@@ -32,7 +32,7 @@ class _CreateAlertPage extends State<CreateAlertPage> {
     DateTime date = DateTime(now.year, now.month, now.day, now.hour, now.minute, now.second);
     String dateFormatted = date.toString().substring(0, date.toString().indexOf('.'));
 
-    Map<ErrorType, String> errorList = <ErrorType, String>{
+    /*Map<ErrorType, String> errorList = <ErrorType, String>{
       ErrorType.blackout: l10n.blackout,
       ErrorType.accidentCar: l10n.accidentCar,
       ErrorType.accidentPT: l10n.accidentPT,
@@ -43,7 +43,7 @@ class _CreateAlertPage extends State<CreateAlertPage> {
       ErrorType.delay: l10n.delay,
       ErrorType.assemblyErr: l10n.assemblyErr,
       ErrorType.passengerSick: l10n.passengerSick
-    };
+    };*/
 
     List<String> stationsNearList = <String>[];
 
@@ -71,24 +71,6 @@ class _CreateAlertPage extends State<CreateAlertPage> {
             ),
             //TODO Nem változik az érték, megkérdezni!
             DropdownButton<String>(
-              //hint: Text(l10n.selectError),
-              value: reportType,
-              onChanged: (String? newValue) {
-                setState(() {
-                  reportType = newValue!;
-                });
-              },
-              items: errorList.map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(
-                    value,
-                    style: const TextStyle(color: Colors.black),
-                  ),
-                );
-              }).toList(),
-            ),
-            DropdownButton<String>(
               hint: Text(l10n.selectError),
               onChanged: (String? newValue) {
                 stationName = newValue!;
@@ -102,25 +84,6 @@ class _CreateAlertPage extends State<CreateAlertPage> {
                   value: value,
                   child: Text(
                     value,
-                    style: const TextStyle(color: Colors.black),
-                  ),
-                );
-              }).toList(),
-            ),
-            DropdownButton<ErrorType>(
-              hint: Text(l10n.selectError),
-              onChanged: (Map<ErrorType, String>? newValue) {
-                testType = newValue!.;
-                setState(() {
-                  newValue;
-                });
-              },
-              value: testType,
-              items: ErrorType.values.map((ErrorType classType) {
-                return DropdownMenuItem<ErrorType>(
-                  value: classType,
-                  child: Text(
-                    classType.toString(),
                     style: const TextStyle(color: Colors.black),
                   ),
                 );

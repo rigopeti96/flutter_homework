@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:homework/createuser/createuser.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../main.dart';
 import 'logindataresponse.dart';
@@ -11,27 +12,45 @@ class LoginPage extends StatelessWidget {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
-  Future<LoginDataResponse> login() async{
-    final response = await http.post(
-      Uri.parse('http://192.168.0.129:8080/api/auth/signin'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'username': usernameController.text,
-        'password': passwordController.text,
-      }),
-    );
+  Future<LoginDataResponse> login(BuildContext context, L10n l10n) async{
+    try{
+      final response = await http.post(
+        Uri.parse('http://192.168.0.129:8080/api/auth/signin'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'username': usernameController.text,
+          'password': passwordController.text,
+        }),
+      );
 
-    if (response.statusCode == 201) {
-      // If the server did return a 201 CREATED response,
-      // then parse the JSON.
-      return LoginDataResponse.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
-    } else {
-      // If the server did not return a 201 CREATED response,
-      // then throw an exception.
-      throw Exception('Failed to create album.');
+      if (response.statusCode == 201) {
+        // If the server did return a 201 CREATED response,
+        // then parse the JSON.
+        return LoginDataResponse.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
+      } else {
+        // If the server did not return a 201 CREATED response,
+        // then throw an exception.
+        throw Exception('Failed to login.');
+      }
+    } catch(_){
+      //  "dismissButton": "BEZÁR",
+      //   "connectionErrorMessage": "Hálózati hiba, hibaüzenet a logban!",
+      _showToast(context, l10n);
+      throw Exception('Failed to connect.');
     }
+
+  }
+
+  void _showToast(BuildContext context, L10n l10n) {
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        content: Text(l10n.connectionErrorMessage),
+        action: SnackBarAction(label: l10n.dismissButton, onPressed: scaffold.hideCurrentSnackBar),
+      ),
+    );
   }
 
   @override
@@ -71,7 +90,7 @@ class LoginPage extends StatelessWidget {
               ElevatedButton(
                 child: Text(l10n.loginButton),
                 onPressed: (){
-                  login();
+                  login(context, l10n);
                   //Navigator.of(context).pop();
                 },
               ),

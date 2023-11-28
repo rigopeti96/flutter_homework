@@ -15,6 +15,11 @@
     "description": "Login page button title.",
     "context": "LoginPage"
   },
+  "dismissButton": "DISMISS",
+  "@dismissButton": {
+    "description": "Toast message dismiss button text.",
+    "context": "Toast"
+  },
   "signup": "TraWell - Create user",
   "@signupTitle": {
     "description": "Create user page title.",
@@ -43,6 +48,11 @@
   "passwordTag": "Password",
   "@passwordTag": {
     "description": "Create user page password edit text hint.",
+    "context": "CreateUserPage"
+  },
+  "emailTag": "E-mail address",
+  "@emailTag": {
+    "description": "Create user page email edit text hint.",
     "context": "CreateUserPage"
   },
   "yourPosition": "Your position",
@@ -114,6 +124,10 @@
   "@delay": {
     "description": "Dropdown list value",
     "context": "CreateAlertPage"
+  },
+  "connectionErrorMessage": "Connection error, please check logs!",
+  "@connectionErrorMessage": {
+    "description": "Connection error message"
   },
   "assemblyErr": "Assembly error",
   "@assemblyErr": {
