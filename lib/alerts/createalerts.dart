@@ -23,6 +23,16 @@ class _CreateAlertPage extends State<CreateAlertPage> {
 
   ErrorType testType = ErrorType.blackout;
 
+  void _showToast(BuildContext context, L10n l10n) {
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        content: Text(l10n.connectionErrorMessage),
+        action: SnackBarAction(label: l10n.dismissButton, onPressed: scaffold.hideCurrentSnackBar),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final L10n l10n = L10n.of(context)!;
