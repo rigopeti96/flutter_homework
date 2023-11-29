@@ -10,6 +10,7 @@
   "userNameTag": "Felhasználónév",
   "passwordTag": "Jelszó",
   "emailTag": "E-mail cím",
+  "actualPosition": "Aktuális pozíció",
   "dismissButton": "BEZÁR",
   "connectionErrorMessage": "Hálózati hiba, hibaüzenet a logban!",
   "createUser": "Felhasználó létrehozása",

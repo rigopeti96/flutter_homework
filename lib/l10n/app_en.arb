@@ -65,6 +65,11 @@
     "description": "Label of dropdown list",
     "context": "CreateAlertPage"
   },
+  "actualPosition": "Actual position",
+  "@actualPosition": {
+    "description": "Label of actual position marker",
+    "context": "MainPage"
+  },
   "stationsNear": "Stations near you...",
   "@stationsNear": {
     "description": "Label of station dropdown list",

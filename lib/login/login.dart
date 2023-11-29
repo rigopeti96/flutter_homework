@@ -35,8 +35,6 @@ class LoginPage extends StatelessWidget {
         throw Exception('Failed to login.');
       }
     } catch(_){
-      //  "dismissButton": "BEZÁR",
-      //   "connectionErrorMessage": "Hálózati hiba, hibaüzenet a logban!",
       _showToast(context, l10n);
       throw Exception('Failed to connect.');
     }
