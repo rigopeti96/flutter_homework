@@ -9,8 +9,12 @@ import 'package:geolocator/geolocator.dart';
 import 'package:homework/alerts/createalerts.dart';
 import 'package:homework/main.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
+import 'package:homework/reportlist/reportdataresponse.dart';
 import 'package:homework/reportlist/reportlist.dart';
 export 'package:flutter_gen/gen_l10n/l10n.dart';
+
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 void main() {
   runApp(const TraWellApp());
@@ -37,7 +41,9 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  late GoogleMapController mapController;
+  late GoogleMapController _mapController;
+  late List<Marker> _markerList;
+  late List<ReportDataResponse> _reportList;
 
   List<Page> pages = [
     const MaterialPage(child: TraWellApp()),
@@ -45,7 +51,7 @@ class _MainPageState extends State<MainPage> {
 
 
   void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
+    _mapController = controller;
   }
 
   Future<Position> _determinePosition() async {
@@ -138,6 +144,51 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
+  void _createItemToMarkerList(){
+    for (var i = 0; i < _reportList.length; i++) {
+      double actLat = _reportList[i].latitude;
+      double actLon = _reportList[i].longitude;
+      Marker newMarker = Marker(
+          markerId: MarkerId('marker$i'),
+          position: LatLng(actLat, actLon)
+      );
+      _markerList.add(newMarker);
+    }
+  }
+
+  _getReports() async{
+    try{
+      final response = await http.post(
+        Uri.parse('http://192.168.0.129:8080/api/auth/signin'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{}),
+      );
+
+      if (response.statusCode == 200) {
+        // If the server did return a 201 CREATED response,
+        // then parse the JSON.
+        return ReportDataResponse.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
+      } else {
+        // If the server did not return a 201 CREATED response,
+        // then throw an exception.
+        throw Exception('Failed to login.');
+      }
+    } catch(_){
+      //_showToast(context, l10n);
+      throw Exception('Failed to connect.');
+    }
+  }
+
+  @override
+  Future<void> initState() async {
+    super.initState();
+    _reportList = await _getReports();
+    _createItemToMarkerList();
+    _markerList.addAll(_markerList);
+  }
+
   @override
   Widget build(BuildContext context) {
     final L10n l10n = L10n.of(context)!;
@@ -151,7 +202,6 @@ class _MainPageState extends State<MainPage> {
           title: Text(l10n.homeTitle),
           elevation: 2,
         ),
-        // Egymásra helyezed ezzel a widgeteket CSS-ben ez a z-index
         body: Stack(
           children: [
             StreamBuilder<Position>(
@@ -166,7 +216,6 @@ class _MainPageState extends State<MainPage> {
                     ),
                     onMapCreated: _onMapCreated,
                     markers: <Marker>{
-
                       Marker(
                         markerId: const MarkerId('user_location'),
                         position: LatLng(position.latitude, position.longitude),
