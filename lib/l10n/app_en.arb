@@ -169,8 +169,8 @@
     "description": "Toast message OK button",
     "context": "ToastMessage"
   },
-  "jwtTokenEmptyMessage": "Log in first to access this page",
-  "@okButton": {
+  "jwtTokenEmptyMessage": "Log in first to access this function",
+  "@jwtTokenEmptyMessage": {
     "description": "Error message is JWT Token is not set",
     "context": "LoginPage"
   },
@@ -178,5 +178,10 @@
   "@generalErrorMessage": {
     "description": "Alert dialog title",
     "context": "AlertDialog"
+  },
+  "reportUpdateSuccessMessage": "Report update was successful!",
+  "@reportUpdateSuccessMessage": {
+    "description": "Toast message to show the success of report update",
+    "context": "ReportPage"
   }
 }

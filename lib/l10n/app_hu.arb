@@ -33,6 +33,7 @@
   "reportCreateSuccessMessage": "Bejelentés létrehozása sikeres!",
   "loginSuccessMessage": "Bejelentkezés sikeres!",
   "okButton": "OK",
-  "jwtTokenEmptyMessage": "A képernyő használata bejelentkezéshez kötött!",
-  "generalErrorMessage": "Hiba!"
+  "jwtTokenEmptyMessage": "A funkció használata bejelentkezéshez kötött!",
+  "generalErrorMessage": "Hiba!",
+  "reportUpdateSuccessMessage": "Bejelentés frissítése sikeres!"
 }

@@ -38,6 +38,76 @@ class _ReportListPage extends State<ReportListPage> {
       content: Text("$item is selected"),
     ));
   }
+
+  Future<void> _showMyDialog(L10n l10n) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(l10n.generalErrorMessage),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(l10n.jwtTokenEmptyMessage),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(l10n.okButton),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<String> _extendError(BuildContext context, L10n l10n, String id) async{
+    try{
+      final response = await http.put(
+        Uri.parse('http://192.168.0.171:8080/api/reports/putReport'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization' :'Bearer $jwtToken'
+        },
+        body: jsonEncode(<String, String>{
+          'id':id,
+          'reportDateUntil': DateTime.now().add(const Duration(minutes: 5)).toString().replaceAll(" ", "T"),
+          'modifierName':userName
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        // If the server did return a 200 OK response,
+        // then parse the JSON.
+        _showToast(context, l10n.reportUpdateSuccessMessage, l10n.okButton);
+        return response.body;
+      } else {
+        // If the server did not return a 201 CREATED response,
+        // then throw an exception.
+        throw Exception('Failed to create error.');
+      }
+    } on Exception catch (e) {
+      print(e);
+      _showToast(context, l10n.connectionErrorMessage, l10n.okButton);
+      throw Exception('Failed to connect.');
+    }
+
+  }
+
+  void _showToast(BuildContext context, String message, String okButton) {
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        content: Text(message),
+        action: SnackBarAction(label: okButton, onPressed: scaffold.hideCurrentSnackBar),
+      ),
+    );
+  }
   
   /*void fillReportList(){
     responseList = getReports();
@@ -92,7 +162,13 @@ class _ReportListPage extends State<ReportListPage> {
                     IconButton(
                       icon: const Icon(Icons.access_time_filled),
                       iconSize: 40,
-                      onPressed: () {},
+                      onPressed: () {
+                        if(jwtToken != ""){
+                          //_extendError(context, l10n, reportList[index].id);
+                        } else {
+                          _showMyDialog(l10n);
+                        }
+                      },
                     )
                   ],
                 )
