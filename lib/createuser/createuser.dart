@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -27,31 +29,34 @@ class MyCustomFormState extends State<CreateUser> {
   Future<CreateUserResponse> signup(BuildContext context, L10n l10n) async{
     try{
       final response = await http.post(
-        Uri.parse('http://192.168.0.129:8080/api/auth/signup'),
+        Uri.parse('http://192.168.0.171:8080/api/auth/signup'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(<String, String>{
+        body: jsonEncode(<String, Object>{
           'name': fullNameController.text,
           'username': userNameController.text,
           'password': passwordController.text,
           'email': emailController.text,
-          'roles': roles.toString()
+          'roles': roles
         }),
       );
 
       if (response.statusCode == 200) {
         // If the server did return a 200 OK response,
         // then parse the JSON.
-        return CreateUserResponse.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
+        CreateUserResponse userResponse = CreateUserResponse.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
+        Navigator.of(context).pop();
+        return userResponse;
       } else {
         // If the server did not return a 200 OK response,
         // then throw an exception.
+        _showToast(context, l10n);
         throw Exception('Failed to create user!');
       }
     } catch(_){
       _showToast(context, l10n);
-      throw Exception('Failed to connect.');
+      throw Exception('Failed to connect. ${_}');
     }
 
   }
@@ -94,7 +99,6 @@ class MyCustomFormState extends State<CreateUser> {
           ),
           TextField(
             controller: emailController,
-            obscureText: true,
             decoration: InputDecoration(
               hintText: l10n.emailTag,
             ),
@@ -103,7 +107,6 @@ class MyCustomFormState extends State<CreateUser> {
             child: Text(l10n.createUser),
             onPressed: (){
               signup(context, l10n);
-              Navigator.of(context).pop();
             },
           ),
           ElevatedButton(

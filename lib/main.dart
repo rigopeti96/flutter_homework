@@ -16,6 +16,8 @@ export 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+String jwtToken = "";
+
 void main() {
   runApp(const TraWellApp());
 }
@@ -159,7 +161,7 @@ class _MainPageState extends State<MainPage> {
   _getReports() async{
     try{
       final response = await http.post(
-        Uri.parse('http://192.168.0.129:8080/api/auth/signin'),
+        Uri.parse('http://192.168.0.171:8080/api/auth/signin'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -179,14 +181,6 @@ class _MainPageState extends State<MainPage> {
       //_showToast(context, l10n);
       throw Exception('Failed to connect.');
     }
-  }
-
-  @override
-  Future<void> initState() async {
-    super.initState();
-    _reportList = await _getReports();
-    _createItemToMarkerList();
-    _markerList.addAll(_markerList);
   }
 
   @override

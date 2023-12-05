@@ -15,7 +15,7 @@ class LoginPage extends StatelessWidget {
   Future<LoginDataResponse> login(BuildContext context, L10n l10n) async{
     try{
       final response = await http.post(
-        Uri.parse('http://192.168.0.129:8080/api/auth/signin'),
+        Uri.parse('http://192.168.0.171:8080/api/auth/signin'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -28,7 +28,9 @@ class LoginPage extends StatelessWidget {
       if (response.statusCode == 201) {
         // If the server did return a 201 CREATED response,
         // then parse the JSON.
-        return LoginDataResponse.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
+        LoginDataResponse loginResponse = LoginDataResponse.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
+        jwtToken = loginResponse.accessToken;
+        return loginResponse;
       } else {
         // If the server did not return a 201 CREATED response,
         // then throw an exception.
