@@ -17,6 +17,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 String jwtToken = "";
+String userName = "";
 
 void main() {
   runApp(const TraWellApp());
@@ -39,10 +40,10 @@ class TraWellApp extends StatelessWidget {
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
 
-  _MainPageState createState() => _MainPageState();
+  MainPageState createState() => MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class MainPageState extends State<MainPage> {
   late GoogleMapController _mapController;
   late List<Marker> _markerList;
   late List<ReportDataResponse> _reportList;
@@ -169,7 +170,7 @@ class _MainPageState extends State<MainPage> {
       );
 
       if (response.statusCode == 200) {
-        // If the server did return a 201 CREATED response,
+        // If the server did return a 200 OK response,
         // then parse the JSON.
         return ReportDataResponse.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
       } else {
@@ -181,6 +182,33 @@ class _MainPageState extends State<MainPage> {
       //_showToast(context, l10n);
       throw Exception('Failed to connect.');
     }
+  }
+
+  Future<void> _showMyDialog(L10n l10n) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(l10n.generalErrorMessage),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(l10n.jwtTokenEmptyMessage),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(l10n.okButton),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -247,7 +275,11 @@ class _MainPageState extends State<MainPage> {
               right: 10,
               child: ElevatedButton(
                 onPressed: () {
-                  _navigateToCreateAlertScreen();
+                  if(jwtToken != ""){
+                    _navigateToCreateAlertScreen();
+                  } else {
+                    _showMyDialog(l10n);
+                  }
                 },
                 child: const Icon(Icons.notifications_active),
               ),

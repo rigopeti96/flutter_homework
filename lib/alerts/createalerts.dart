@@ -1,9 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:homework/alerts/errortypevalues.dart';
 
-import '../main.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+import 'package:http/http.dart' as http;
+import '../../main.dart';
+import 'createerrorresponse.dart';
 
 
 
@@ -23,12 +29,54 @@ class _CreateAlertPage extends State<CreateAlertPage> {
 
   ErrorType testType = ErrorType.blackout;
 
-  void _showToast(BuildContext context, L10n l10n) {
+  Future<CreateErrorResponse> createError(BuildContext context, L10n l10n) async{
+    try{
+      final response = await http.post(
+        Uri.parse('http://192.168.0.171:8080/api/reports/postReport'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization' :'Bearer $jwtToken'
+        },
+        body: jsonEncode(<String, String>{
+          'reportType':l10n.generalError,
+          'stationName':'actualPosition',
+          'transportType':l10n.unknown,
+          'latitude': position.latitude.toString(),
+          'longitude': position.longitude.toString(),
+          'reportDate': DateTime.now().toString().replaceAll(" ", "T"),
+          'reportDateUntil': DateTime.now().add(const Duration(minutes: 5)).toString().replaceAll(" ", "T"),
+          'reporterName':userName,
+          'modifierName':userName
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        // If the server did return a 200 OK response,
+        // then parse the JSON.
+        CreateErrorResponse loginResponse = CreateErrorResponse.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
+        MainPageState createState() => MainPageState();
+        Navigator.of(context).pop();
+        _showToast(context, l10n.reportCreateSuccessMessage, l10n.okButton);
+        return loginResponse;
+      } else {
+        // If the server did not return a 201 CREATED response,
+        // then throw an exception.
+        throw Exception('Failed to create error.');
+      }
+    } on Exception catch (e) {
+      print(e);
+      _showToast(context, l10n.connectionErrorMessage, l10n.okButton);
+      throw Exception('Failed to connect.');
+    }
+
+  }
+
+  void _showToast(BuildContext context, String message, String okButton) {
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.showSnackBar(
       SnackBar(
-        content: Text(l10n.connectionErrorMessage),
-        action: SnackBarAction(label: l10n.dismissButton, onPressed: scaffold.hideCurrentSnackBar),
+        content: Text(message),
+        action: SnackBarAction(label: okButton, onPressed: scaffold.hideCurrentSnackBar),
       ),
     );
   }
@@ -36,26 +84,10 @@ class _CreateAlertPage extends State<CreateAlertPage> {
   @override
   Widget build(BuildContext context) {
     final L10n l10n = L10n.of(context)!;
-    String stationName = "";
-    String reportType = l10n.blackout;
     DateTime now = DateTime.now();
+    print(now);
     DateTime date = DateTime(now.year, now.month, now.day, now.hour, now.minute, now.second);
     String dateFormatted = date.toString().substring(0, date.toString().indexOf('.'));
-
-    /*Map<ErrorType, String> errorList = <ErrorType, String>{
-      ErrorType.blackout: l10n.blackout,
-      ErrorType.accidentCar: l10n.accidentCar,
-      ErrorType.accidentPT: l10n.accidentPT,
-      ErrorType.inspector: l10n.inspector,
-      ErrorType.trafficJam: l10n.trafficJam,
-      ErrorType.weather: l10n.weather,
-      ErrorType.unknown: l10n.unknown,
-      ErrorType.delay: l10n.delay,
-      ErrorType.assemblyErr: l10n.assemblyErr,
-      ErrorType.passengerSick: l10n.passengerSick
-    };*/
-
-    List<String> stationsNearList = <String>[];
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.createAlertTitle)),
@@ -63,6 +95,10 @@ class _CreateAlertPage extends State<CreateAlertPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Padding(
+              padding: const EdgeInsets.all(5), //apply padding to all four sides
+              child: Text("${l10n.userNameTag}: $userName"),
+            ),
             Padding(
               padding: const EdgeInsets.all(5), //apply padding to all four sides
               child: Text(l10n.yourPosition),
@@ -79,26 +115,6 @@ class _CreateAlertPage extends State<CreateAlertPage> {
               padding: const EdgeInsets.all(5), //apply padding to all four sides
               child: Text("Actual date: $dateFormatted"),
             ),
-            //TODO Nem változik az érték, megkérdezni!
-            DropdownButton<String>(
-              hint: Text(l10n.selectError),
-              onChanged: (String? newValue) {
-                stationName = newValue!;
-                setState(() {
-                  newValue;
-                });
-              },
-              value: stationName,
-              items: stationsNearList.map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(
-                    value,
-                    style: const TextStyle(color: Colors.black),
-                  ),
-                );
-              }).toList(),
-            ),
             Expanded(
                 child: Align(
                     alignment: Alignment.bottomCenter,
@@ -108,7 +124,7 @@ class _CreateAlertPage extends State<CreateAlertPage> {
                       ),
                       child: Text(l10n.createAlert),
                       onPressed: (){
-                        Navigator.of(context).pop();
+                        createError(context, l10n);
                       },
                     ),
                 )

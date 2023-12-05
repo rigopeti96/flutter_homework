@@ -16,7 +16,7 @@
   "createUser": "Felhasználó létrehozása",
   "stationsNear": "Közeli megállók",
   "selectError": "Hibajelenség",
-  "createAlert":"Hiba beküldése",
+  "createAlert": "Hiba beküldése",
   "createUserBack": "Vissza",
   "blackout": "Áramkimaradás",
   "accidentCar": "Baleset (autó)",
@@ -29,5 +29,10 @@
   "assemblyErr": "Szerelvényhiba",
   "yourPosition": "Aktuális pozíció",
   "passengerSick": "Utas rosszullét",
-  "emptyValue": "Üres"
+  "emptyValue": "Üres",
+  "reportCreateSuccessMessage": "Bejelentés létrehozása sikeres!",
+  "loginSuccessMessage": "Bejelentkezés sikeres!",
+  "okButton": "OK",
+  "jwtTokenEmptyMessage": "A képernyő használata bejelentkezéshez kötött!",
+  "generalErrorMessage": "Hiba!"
 }

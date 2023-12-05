@@ -90,6 +90,11 @@
     "description": "Button text value",
     "context": "CreateAlertPage"
   },
+  "generalError": "General error",
+  "@generalError": {
+    "description": "Dropdown list value",
+    "context": "CreateAlertPage"
+  },
   "blackout": "Blackout",
   "@blackout": {
     "description": "Dropdown list value",
@@ -148,5 +153,30 @@
   "@emptyValue": {
     "description": "Dropdown list value",
     "context": "CreateAlertPage"
+  },
+  "reportCreateSuccessMessage": "Report creation was successful",
+  "@reportCreateSuccessMessage": {
+    "description": "Toast message to show the success of report creation",
+    "context": "CreateAlertPage"
+  },
+  "loginSuccessMessage": "Login was successful",
+  "@loginSuccessMessage": {
+    "description": "Toast message to show the success of login",
+    "context": "LoginPage"
+  },
+  "okButton": "OK",
+  "@okButton": {
+    "description": "Toast message OK button",
+    "context": "ToastMessage"
+  },
+  "jwtTokenEmptyMessage": "Log in first to access this page",
+  "@okButton": {
+    "description": "Error message is JWT Token is not set",
+    "context": "LoginPage"
+  },
+  "generalErrorMessage": "Error!",
+  "@generalErrorMessage": {
+    "description": "Alert dialog title",
+    "context": "AlertDialog"
   }
 }

@@ -25,30 +25,34 @@ class LoginPage extends StatelessWidget {
         }),
       );
 
-      if (response.statusCode == 201) {
-        // If the server did return a 201 CREATED response,
+      if (response.statusCode == 200) {
+        // If the server did return a 200 OK response,
         // then parse the JSON.
         LoginDataResponse loginResponse = LoginDataResponse.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
         jwtToken = loginResponse.accessToken;
+        userName = loginResponse.employeename;
+        _showToast(context, l10n.loginSuccessMessage, l10n.okButton);
+        Navigator.of(context).pop();
         return loginResponse;
       } else {
         // If the server did not return a 201 CREATED response,
         // then throw an exception.
         throw Exception('Failed to login.');
       }
-    } catch(_){
-      _showToast(context, l10n);
+    } on Exception catch (e) {
+      print(e);
+      _showToast(context, l10n.connectionErrorMessage, l10n.okButton);
       throw Exception('Failed to connect.');
     }
 
   }
 
-  void _showToast(BuildContext context, L10n l10n) {
+  void _showToast(BuildContext context, String message, String okButton) {
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.showSnackBar(
       SnackBar(
-        content: Text(l10n.connectionErrorMessage),
-        action: SnackBarAction(label: l10n.dismissButton, onPressed: scaffold.hideCurrentSnackBar),
+        content: Text(message),
+        action: SnackBarAction(label: okButton, onPressed: scaffold.hideCurrentSnackBar),
       ),
     );
   }
