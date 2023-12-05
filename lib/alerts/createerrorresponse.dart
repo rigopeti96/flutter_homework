@@ -5,8 +5,8 @@ class CreateErrorResponse {
   final String transportType;
   final double latitude;
   final double longitude;
-  final DateTime reportDate;
-  final DateTime reportDateUntil;
+  final String reportDate;
+  final String reportDateUntil;
   final String reporterName;
   final String modifierName;
 
@@ -31,8 +31,8 @@ class CreateErrorResponse {
       transportType: json['transportType'] as String,
       latitude: json['latitude'] as double,
       longitude: json['longitude'] as double,
-      reportDate: json['reportDate'] as DateTime,
-      reportDateUntil: json['reportDateUntil'] as DateTime,
+      reportDate: json['reportDate'] as String,
+      reportDateUntil: json['reportDateUntil'] as String,
       reporterName: json['reporterName'] as String,
       modifierName: json['modifierName'] as String,
     );

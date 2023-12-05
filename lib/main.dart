@@ -45,8 +45,8 @@ class MainPage extends StatefulWidget {
 
 class MainPageState extends State<MainPage> {
   late GoogleMapController _mapController;
-  late List<Marker> _markerList;
-  late List<ReportDataResponse> _reportList;
+  List<ReportDataResponse> responseList = [];
+  List<Marker> _markerList = [];
 
   List<Page> pages = [
     const MaterialPage(child: TraWellApp()),
@@ -55,6 +55,24 @@ class MainPageState extends State<MainPage> {
 
   void _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
+  }
+
+  Future<List<ReportDataResponse>> _getReports() async{
+    final response = await http.get(
+      Uri.parse('http://192.168.0.171:8080/api/public/reports/getAllReports'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      List<dynamic> parsedListJson = json.decode(response.body);
+      return List<ReportDataResponse>.from(parsedListJson.map((e) => ReportDataResponse.fromJson(e)));
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to create album.');
+    }
   }
 
   Future<Position> _determinePosition() async {
@@ -147,41 +165,43 @@ class MainPageState extends State<MainPage> {
     );
   }
 
-  void _createItemToMarkerList(){
-    for (var i = 0; i < _reportList.length; i++) {
-      double actLat = _reportList[i].latitude;
-      double actLon = _reportList[i].longitude;
-      Marker newMarker = Marker(
-          markerId: MarkerId('marker$i'),
-          position: LatLng(actLat, actLon)
-      );
-      _markerList.add(newMarker);
-    }
+  void _createItemToMarkerList(ReportDataResponse actItem){
+    double actLat = actItem.latitude;
+    double actLon = actItem.longitude;
+    Marker newMarker = Marker(
+        markerId: MarkerId('marker_${actItem.id}'),
+        position: LatLng(actLat, actLon),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+    );
+    _markerList.add(newMarker);
   }
 
-  _getReports() async{
-    try{
-      final response = await http.post(
-        Uri.parse('http://192.168.0.171:8080/api/auth/signin'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, String>{}),
-      );
+  void _fetchData() {
+    _getReports().then((res) {
+      setState(() {
+        if(_markerList.isNotEmpty){
+          for (var element in _markerList) {
+            _markerList.remove(element);
+          }
+        }
 
-      if (response.statusCode == 200) {
-        // If the server did return a 200 OK response,
-        // then parse the JSON.
-        return ReportDataResponse.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
-      } else {
-        // If the server did not return a 201 CREATED response,
-        // then throw an exception.
-        throw Exception('Failed to login.');
-      }
-    } catch(_){
-      //_showToast(context, l10n);
-      throw Exception('Failed to connect.');
-    }
+        if(responseList.isNotEmpty){
+          for (var element in responseList) {
+            responseList.remove(element);
+          }
+        }
+
+        for (var element in responseList) {
+          _createItemToMarkerList(element);
+        }
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchData();
   }
 
   Future<void> _showMyDialog(L10n l10n) async {
@@ -231,20 +251,20 @@ class MainPageState extends State<MainPage> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   final position = snapshot.data;
+                  _markerList.add(
+                      Marker(
+                        markerId: const MarkerId('user_location'),
+                        position: LatLng(position!.latitude, position.longitude),
+                        icon: BitmapDescriptor.defaultMarker,
+                      )
+                  );
                   return GoogleMap(
                     initialCameraPosition: CameraPosition(
-                      target: LatLng(position!.latitude, position.longitude),
+                      target: LatLng(position.latitude, position.longitude),
                       zoom: 15.0,
                     ),
                     onMapCreated: _onMapCreated,
-                    markers: <Marker>{
-                      Marker(
-                        markerId: const MarkerId('user_location'),
-                        position: LatLng(position.latitude, position.longitude),
-                        icon: BitmapDescriptor.defaultMarker,
-
-                      ),
-                    },
+                    markers: Set<Marker>.of(_markerList),
                   );
                 }
                 return const CircularProgressIndicator();

@@ -26,7 +26,7 @@ class CreateAlertPage extends StatefulWidget {
 class _CreateAlertPage extends State<CreateAlertPage> {
   final LatLng position;
   _CreateAlertPage({required this.position});
-
+  final errorTypeController = TextEditingController();
   ErrorType testType = ErrorType.blackout;
 
   Future<CreateErrorResponse> createError(BuildContext context, L10n l10n) async{
@@ -39,7 +39,8 @@ class _CreateAlertPage extends State<CreateAlertPage> {
         },
         body: jsonEncode(<String, String>{
           'reportType':l10n.generalError,
-          'stationName':'actualPosition',
+          //'stationName': _getErrorType(l10n),
+          'stationName': errorTypeController.text,
           'transportType':l10n.unknown,
           'latitude': position.latitude.toString(),
           'longitude': position.longitude.toString(),
@@ -71,6 +72,13 @@ class _CreateAlertPage extends State<CreateAlertPage> {
 
   }
 
+  String _getErrorType(L10n l10n){
+    if(errorTypeController.text.isEmpty){
+      return l10n.generalError;
+    }
+    return errorTypeController.text;
+  }
+
   void _showToast(BuildContext context, String message, String okButton) {
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.showSnackBar(
@@ -85,7 +93,6 @@ class _CreateAlertPage extends State<CreateAlertPage> {
   Widget build(BuildContext context) {
     final L10n l10n = L10n.of(context)!;
     DateTime now = DateTime.now();
-    print(now);
     DateTime date = DateTime(now.year, now.month, now.day, now.hour, now.minute, now.second);
     String dateFormatted = date.toString().substring(0, date.toString().indexOf('.'));
 
@@ -114,6 +121,17 @@ class _CreateAlertPage extends State<CreateAlertPage> {
             Padding(
               padding: const EdgeInsets.all(5), //apply padding to all four sides
               child: Text("Actual date: $dateFormatted"),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(5), //apply padding to all four sides
+              child: TextField(
+                controller: errorTypeController,
+                decoration: InputDecoration(
+                  hintText: l10n.selectError,
+                  filled: true,
+                  fillColor: Colors.white,
+                ),
+              ),
             ),
             Expanded(
                 child: Align(

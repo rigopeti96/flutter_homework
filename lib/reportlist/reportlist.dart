@@ -15,23 +15,10 @@ class ReportListPage extends StatefulWidget {
 }
 
 class _ReportListPage extends State<ReportListPage> {
-  //Future<List<ReportDataResponse>> responseList;
-
-  var reportList = [
-    "Madras",
-    "Kaala",
-    "Kabali",
-    "Sarpatta Parambarai",
-    "Dhammam",
-    "Natchathiram Nagargirathu",
-    "Parieryum Perumal",
-    "Karnan",
-    "Vadachennai",
-    "Asuran",
-    "Jai Bhim"
-  ];
-  
+  List<ReportDataResponse> responseList = [];
   _ReportListPage();
+
+
 
   void onTapGesture(item) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -72,7 +59,7 @@ class _ReportListPage extends State<ReportListPage> {
         Uri.parse('http://192.168.0.171:8080/api/reports/putReport'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization' :'Bearer $jwtToken'
+          'Authorization' : 'Bearer $jwtToken'
         },
         body: jsonEncode(<String, String>{
           'id':id,
@@ -82,13 +69,10 @@ class _ReportListPage extends State<ReportListPage> {
       );
 
       if (response.statusCode == 200) {
-        // If the server did return a 200 OK response,
-        // then parse the JSON.
         _showToast(context, l10n.reportUpdateSuccessMessage, l10n.okButton);
+        _fetchData();
         return response.body;
       } else {
-        // If the server did not return a 201 CREATED response,
-        // then throw an exception.
         throw Exception('Failed to create error.');
       }
     } on Exception catch (e) {
@@ -109,30 +93,42 @@ class _ReportListPage extends State<ReportListPage> {
     );
   }
   
-  /*void fillReportList(){
-    responseList = getReports();
-  }*/
-  
-  /*Future<List<ReportDataResponse>> getReports() async{
-    final response = await http.post(
-      Uri.parse('http://192.168.0.171:8080/api/auth/signin'),
+  Future<List<ReportDataResponse>> _getReports() async{
+    final response = await http.get(
+      Uri.parse('http://192.168.0.171:8080/api/public/reports/getAllReports'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-
       },
     );
 
-    if (response.statusCode == 201) {
-      // If the server did return a 201 CREATED response,
-      // then parse the JSON.
-      final List<ReportDataResponse> body = json.decode(response.body);
-      return body.map((e) => ReportDataResponse.fromJson(e)).toList();
+    if (response.statusCode == 200) {
+      List<dynamic> parsedListJson = json.decode(response.body);
+      return List<ReportDataResponse>.from(parsedListJson.map((e) => ReportDataResponse.fromJson(e)));
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
       throw Exception('Failed to create album.');
     }
-  }*/
+  }
+
+  void _fetchData() {
+    _getReports().then((res) {
+      setState(() {
+        if(responseList.isNotEmpty){
+          for (var element in responseList) {
+            responseList.remove(element);
+          }
+        }
+        responseList.addAll(res);
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +138,7 @@ class _ReportListPage extends State<ReportListPage> {
         title: Text(l10n.reportListTitle),
       ),
       body: ListView.builder(
-        itemCount: reportList.length,
+        itemCount: responseList.length,
         itemBuilder: (context, index) {
           return GestureDetector(
             child: Card(
@@ -153,10 +149,12 @@ class _ReportListPage extends State<ReportListPage> {
                   children: [
                     Column(
                       children: [
-                        Text(
-                          reportList[index],
-                        ),
-                        Text("pina"),
+                        Text(responseList[index].reportType),
+                        Text(responseList[index].reportDateUntil.toString().replaceAll("T", " ").replaceRange(
+                            responseList[index].reportDate.toString().length-4,
+                            responseList[index].reportDate.toString().length,
+                            ""
+                        )),
                       ],
                     ),
                     IconButton(
@@ -164,7 +162,7 @@ class _ReportListPage extends State<ReportListPage> {
                       iconSize: 40,
                       onPressed: () {
                         if(jwtToken != ""){
-                          //_extendError(context, l10n, reportList[index].id);
+                          _extendError(context, l10n, responseList[index].id);
                         } else {
                           _showMyDialog(l10n);
                         }
@@ -174,7 +172,7 @@ class _ReportListPage extends State<ReportListPage> {
                 )
               ),
             ),
-            onTap: () => onTapGesture(reportList[index]),
+            onTap: () => onTapGesture(responseList[index]),
           );
         },
       ),

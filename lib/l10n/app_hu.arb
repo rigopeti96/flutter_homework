@@ -35,5 +35,6 @@
   "okButton": "OK",
   "jwtTokenEmptyMessage": "A funkció használata bejelentkezéshez kötött!",
   "generalErrorMessage": "Hiba!",
+  "generalError": "Általános hiba",
   "reportUpdateSuccessMessage": "Bejelentés frissítése sikeres!"
 }
